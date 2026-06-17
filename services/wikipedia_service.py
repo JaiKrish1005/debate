@@ -26,3 +26,25 @@ def get_summary(title: str):
     except Exception as e:
         print(f"ERROR for {title}: {e}")
         return None
+
+
+def search_claim(claim: str, limit: int = 5):
+    response = requests.get(
+        "https://en.wikipedia.org/w/api.php",
+        params={
+            "action": "opensearch",
+            "search": claim,
+            "limit": limit,
+            "namespace": 0,
+            "format": "json",
+        },
+        timeout=10,
+        headers={
+            "User-Agent": "debAIte/0.1"
+        }
+    )
+
+    print("STATUS:", response.status_code)
+    print("TEXT:", response.text[:500])
+
+    return []
