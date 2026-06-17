@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+typer
+langgraph
+langchain
+langchain-ollama
+pydantic
+requests
+wikipedia
+rich
+pytest
