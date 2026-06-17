@@ -1,27 +1,28 @@
-import wikipedia
+import requests
 
 
-def search_claim(claim: str, limit: int = 3):
-    """
-    Search Wikipedia for topics related to a claim.
-    """
+BASE_URL = "https://en.wikipedia.org/api/rest_v1/page/summary"
 
-    results = wikipedia.search(claim)
 
-    pages = []
+def get_summary(title: str):
+    try:
+        response = requests.get(
+            f"{BASE_URL}/{title}",
+            timeout=10,
+            headers={
+                "User-Agent": "debAIte/0.1"
+            }
+        )
 
-    for title in results[:limit]:
-        try:
-            summary = wikipedia.summary(title, sentences=4)
+        response.raise_for_status()
 
-            pages.append(
-                {
-                    "title": title,
-                    "summary": summary,
-                }
-            )
+        data = response.json()
 
-        except Exception:
-            continue
+        return {
+            "title": data.get("title", title),
+            "summary": data.get("extract", "")
+        }
 
-    return pages
+    except Exception as e:
+        print(f"ERROR for {title}: {e}")
+        return None
