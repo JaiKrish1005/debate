@@ -2,6 +2,7 @@ from services.llm import get_llm
 from schemas.evidence import Evidence
 import time
 
+
 def run_defender_agent(
     claim: str,
     evidence: Evidence
@@ -15,8 +16,9 @@ def run_defender_agent(
             for source in evidence.sources
         ]
     )
-   prompt = f"""
-   Claim:{claim}
+
+    prompt = f"""
+Claim: {claim}
 
 Evidence:
 {evidence_text}
@@ -28,12 +30,12 @@ Using ONLY the evidence above:
 - Maximum 120 words.
 """
 
-   start = time.time()
+    start = time.time()
 
-   response = llm.invoke(prompt)
+    response = llm.invoke(prompt)
 
-   elapsed = time.time() - start
+    elapsed = time.time() - start
 
-   print(f"Defender Agent: {elapsed:.2f}s")
+    print(f"Defender Agent: {elapsed:.2f}s")
 
     return response.content

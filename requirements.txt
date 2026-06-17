@@ -6,6 +6,6 @@ langchain
 langchain-ollama
 pydantic
 requests
-wikipedia
 rich
 pytest
+python-dotenv

@@ -13,4 +13,4 @@ def test_defender_agent():
     )
 
     assert isinstance(argument, str)
-    assert len(argument) > 0
+    assert len(argument.strip()) > 0
