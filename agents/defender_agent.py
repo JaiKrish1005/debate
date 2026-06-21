@@ -1,5 +1,6 @@
 from services.llm import get_llm
 from schemas.evidence import Evidence
+from agents.base_agent import format_evidence
 import time
 
 
@@ -10,12 +11,7 @@ def run_defender_agent(
 
     llm = get_llm()
 
-    evidence_text = "\n\n".join(
-        [
-            f"Title: {source.title}\nSummary: {source.summary[:500]}"
-            for source in evidence.sources
-        ]
-    )
+    evidence_text = format_evidence(evidence)
 
     prompt = f"""
 Claim: {claim}
