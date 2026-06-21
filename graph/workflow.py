@@ -3,8 +3,10 @@ from agents.defender_agent import run_defender_agent
 from agents.skeptic_agent import run_skeptic_agent
 from agents.judge_agent import run_judge_agent
 
+from graph.state import DebateState
 
-def run_debate(claim: str):
+
+def run_debate(claim: str) -> DebateState:
     evidence = run_research_agent(claim)
 
     defender_argument = run_defender_agent(
@@ -24,10 +26,12 @@ def run_debate(claim: str):
         skeptic_argument=skeptic_argument,
     )
 
-    return {
+    state: DebateState = {
         "claim": claim,
         "evidence": evidence,
         "defender_argument": defender_argument,
         "skeptic_argument": skeptic_argument,
         "verdict": verdict,
     }
+
+    return state
