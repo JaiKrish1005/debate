@@ -1,10 +1,8 @@
-from agents.skeptic_agent import SkepticAgent
+from agents.skeptic_agent import run_skeptic_agent
 from schemas.evidence import Evidence, EvidenceSource
 
 
 def test_skeptic_agent_generates_argument():
-    agent = SkepticAgent()
-
     claim = "The Earth is flat"
 
     evidence = Evidence(
@@ -19,7 +17,7 @@ def test_skeptic_agent_generates_argument():
         ]
     )
 
-    result = agent.run(
+    result = run_skeptic_agent(
         claim=claim,
         evidence=evidence,
     )
