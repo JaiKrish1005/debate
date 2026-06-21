@@ -32,12 +32,25 @@ Skeptic Argument:
 {skeptic_argument}
 
 Instructions:
+
+Evaluate whether the CLAIM is supported by the evidence.
+
+Verdict meanings:
+
+- SUPPORTED:
+  The evidence supports the claim.
+
+- REFUTED:
+  The evidence contradicts or disproves the claim.
+
+- INCONCLUSIVE:
+  The evidence is insufficient to determine whether the claim is true or false.
+
+Rules:
+
 - Use only the provided evidence.
 - Compare the defender and skeptic arguments.
-- Decide whether the claim is:
-  - SUPPORTED
-  - REFUTED
-  - INCONCLUSIVE
+- Focus on whether the evidence supports the claim.
 - Assign a confidence score from 0 to 100.
 - Provide concise reasoning.
 

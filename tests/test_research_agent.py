@@ -1,10 +1,20 @@
-from agents.research_agent import run_research_agent
+from agents.research_agent import (
+    extract_topics,
+    run_research_agent,
+)
+
+
+def test_extract_topics():
+    topics = extract_topics(
+        "The Earth is round"
+    )
+
+    assert "Earth" in topics
 
 
 def test_research_agent_returns_evidence():
     evidence = run_research_agent(
-        "Coffee causes dehydration"
+        "The Earth is round"
     )
 
-    assert evidence is not None
     assert len(evidence.sources) > 0
