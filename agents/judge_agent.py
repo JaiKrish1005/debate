@@ -67,6 +67,7 @@ Return ONLY valid JSON in this exact format:
 
     content = response.content.strip()
 
+    # Remove Markdown code fences if present
     if content.startswith("```"):
         lines = content.splitlines()
 
@@ -78,6 +79,19 @@ Return ONLY valid JSON in this exact format:
 
         content = "\n".join(lines)
 
-    data = json.loads(content)
+    try:
+        data = json.loads(content)
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Judge Agent returned invalid JSON:\n\n{content}") from e
+
+    # Normalize verdict to handle minor LLM variations
+    verdict = str(data.get("verdict", "")).upper().strip()
+
+    if verdict.startswith("SUPPOR"):
+        data["verdict"] = "SUPPORTED"
+    elif verdict.startswith("REFUT"):
+        data["verdict"] = "REFUTED"
+    else:
+        data["verdict"] = "INCONCLUSIVE"
 
     return Verdict(**data)
