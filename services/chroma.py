@@ -3,8 +3,8 @@ import os
 
 import chromadb
 from chromadb.api.models.Collection import Collection
-from ollama import Client
 from dotenv import load_dotenv
+from ollama import Client
 
 load_dotenv()
 
@@ -28,7 +28,6 @@ if not EMBEDDING_MODEL:
 # -----------------------------------------------------------------------------
 
 chroma_client = chromadb.PersistentClient(path=str(CHROMA_PATH))
-
 ollama_client = Client()
 
 # -----------------------------------------------------------------------------
@@ -54,7 +53,7 @@ def create_collection() -> Collection:
 
 def _embed(text: str) -> list[float]:
     """
-    Generate an embedding for a single piece of text using Ollama.
+    Generate an embedding using the Ollama embedding model.
     """
     response = ollama_client.embed(
         model=EMBEDDING_MODEL,
@@ -76,16 +75,6 @@ def index_documents(
 ) -> None:
     """
     Index documents into ChromaDB.
-
-    Args:
-        ids:
-            Unique document IDs.
-
-        documents:
-            Document text.
-
-        metadatas:
-            Optional metadata for each document.
     """
     if len(ids) != len(documents):
         raise ValueError("ids and documents must have the same length.")
@@ -95,10 +84,7 @@ def index_documents(
 
     collection = create_collection()
 
-    embeddings = []
-
-    for document in documents:
-        embeddings.append(_embed(document))
+    embeddings = [_embed(document) for document in documents]
 
     collection.add(
         ids=ids,
@@ -116,12 +102,17 @@ def index_documents(
 def retrieve(
     query: str,
     top_k: int = TOP_K,
-) -> list[str]:
+) -> list[dict]:
     """
     Retrieve the most relevant document chunks.
 
     Returns:
-        A list of retrieved document strings.
+        [
+            {
+                "document": "...",
+                "metadata": {...}
+            }
+        ]
     """
     collection = create_collection()
 
@@ -133,8 +124,19 @@ def retrieve(
     )
 
     documents = results.get("documents", [])
+    metadatas = results.get("metadatas", [])
 
     if not documents:
         return []
 
-    return documents[0]
+    retrieved = []
+
+    for document, metadata in zip(documents[0], metadatas[0]):
+        retrieved.append(
+            {
+                "document": document,
+                "metadata": metadata,
+            }
+        )
+
+    return retrieved

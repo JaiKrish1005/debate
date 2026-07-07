@@ -24,7 +24,10 @@ def main():
         for i, result in enumerate(results, start=1):
             print(f"\nResult {i}")
             print("-" * 80)
-            print(result)
+            print(f"Topic : {result['metadata']['topic']}")
+            print(f"Chunk : {result['metadata']['chunk']}")
+            print()
+            print(result["document"])
 
         print("\n")
 
