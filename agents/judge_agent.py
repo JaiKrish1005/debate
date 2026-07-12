@@ -37,22 +37,40 @@ Evaluate whether the CLAIM is supported by the evidence.
 
 Verdict meanings:
 
-- SUPPORTED:
-  The evidence supports the claim.
+SUPPORTED
+The evidence clearly confirms the claim.
 
-- REFUTED:
-  The evidence contradicts or disproves the claim.
+REFUTED
+The evidence clearly contradicts the claim.
 
-- INCONCLUSIVE:
-  The evidence is insufficient to determine whether the claim is true or false.
+INCONCLUSIVE
+Use ONLY if the evidence genuinely does not allow a conclusion.
+Do NOT use INCONCLUSIVE merely because the wording differs.
+If the evidence logically contradicts the claim, return REFUTED.
+If the evidence logically confirms the claim, return SUPPORTED.
 
 Rules:
 
 - Use only the provided evidence.
 - Compare the defender and skeptic arguments.
-- Focus on whether the evidence supports the claim.
+- Judge the exact wording of the claim.
+- Do not infer support from related facts.
+- A claim is NOT SUPPORTED simply because a related statement is true.
+- If the evidence says something different from the claim, return REFUTED if it contradicts the claim; otherwise return INCONCLUSIVE.
 - Assign a confidence score from 0 to 100.
 - Provide concise reasoning.
+
+
+Example:
+
+Claim:
+"Vitamin C prevents colds."
+
+Evidence:
+"Vitamin C may reduce the duration of colds but does not prevent them."
+
+Correct Verdict:
+REFUTED
 
 Return ONLY valid JSON in this exact format:
 
